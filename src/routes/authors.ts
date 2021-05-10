@@ -1,0 +1,15 @@
+import express from 'express';
+import validate from "../middlewares/validate";
+import {check} from "express-validator";
+import AuthorController from "../controllers/AuthorController";
+
+
+const router = express();
+
+router.post('/create', [
+    check('name').not().isEmpty().withMessage('name is required'),
+    check('job_title').not().isEmpty().withMessage('company_bio is required'),
+], validate, AuthorController.create);
+
+
+export default router;
