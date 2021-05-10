@@ -11,5 +11,8 @@ router.post('/create', [
     check('job_title').not().isEmpty().withMessage('company_bio is required'),
 ], validate, AuthorController.create);
 
+router.get('/all', AuthorController.all);
+router.get('/:id', AuthorController.getAuthorById);
+
 
 export default router;

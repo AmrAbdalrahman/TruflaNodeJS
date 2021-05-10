@@ -1,7 +1,8 @@
 import {Request, Response} from "express";
-import {getRepository} from "typeorm";
+import {getCustomRepository, getRepository} from "typeorm";
 import {Author} from "../entity/Author";
 import {resApi} from "../helpers/utils";
+import {AuthorRepository} from "../repositories/AuthorRepository";
 
 
 class AuthorController {
@@ -17,6 +18,36 @@ class AuthorController {
 
         } catch (e) {
             resApi(null, 400, res, 'error while saving');
+        }
+    };
+
+    static all = async (req: Request, res: Response) => {
+
+        try {
+            const authorRepo = await getRepository(Author);
+            const allAuthors = await authorRepo.find({order: {created_at: "DESC"}});
+
+            resApi(allAuthors, 200, res);
+
+        } catch (e) {
+            resApi(null, 400, res, 'error while retrieving');
+        }
+    };
+
+    static getAuthorById = async (req: Request, res: Response) => {
+
+        try {
+            const id: any = req.params.id;
+
+            const authorRepo = await getCustomRepository(AuthorRepository);
+            const author = await authorRepo.findAuthor(id);
+
+            console.log(author);
+            resApi(author, 200, res);
+
+        } catch (e) {
+            console.log(e);
+            resApi(null, 404, res, 'No author found!');
         }
     };
 
