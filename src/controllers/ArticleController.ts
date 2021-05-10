@@ -1,27 +1,25 @@
 import {Request, Response} from "express";
-import {getCustomRepository, getRepository} from "typeorm";
-import {Author} from "../entity/Author";
+import {getRepository} from "typeorm";
 import {resApi} from "../helpers/utils";
-import {AuthorRepository} from "../repositories/AuthorRepository";
+import {Article} from "../entity/Article";
 
-
-class AuthorController {
+class ArticleController {
 
     static create = async (req: Request, res: Response) => {
 
         try {
-            const {name, job_title} = req.body;
-            const authorRepo = await getRepository(Author);
-            const savedAuthor = await authorRepo.save({name, job_title});
+            const {title, body, author} = req.body;
+            const articleRepo = await getRepository(Article);
+            const savedArticle = await articleRepo.save({title, body, author_id: author});
 
-            resApi(savedAuthor, 201, res, 'saved successfully');
+            resApi(savedArticle, 201, res, 'saved successfully');
 
         } catch (e) {
             resApi(null, 400, res, 'error while saving');
         }
     };
 
-    static all = async (req: Request, res: Response) => {
+    /*static all = async (req: Request, res: Response) => {
 
         try {
             const authorRepo = await getRepository(Author);
@@ -48,8 +46,8 @@ class AuthorController {
             console.log(e);
             resApi(null, 404, res, 'No author found!');
         }
-    };
+    };*/
 
 }
 
-export default AuthorController;
+export default ArticleController;
