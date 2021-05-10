@@ -19,20 +19,20 @@ class ArticleController {
         }
     };
 
-    /*static all = async (req: Request, res: Response) => {
+    static all = async (req: Request, res: Response) => {
 
         try {
-            const authorRepo = await getRepository(Author);
-            const allAuthors = await authorRepo.find({order: {created_at: "DESC"}});
+            const articleRepo = await getRepository(Article);
+            const allArticles = await articleRepo.find({order: {created_at: "DESC"}, relations: ['author']});
 
-            resApi(allAuthors, 200, res);
+            resApi(allArticles, 200, res);
 
         } catch (e) {
             resApi(null, 400, res, 'error while retrieving');
         }
     };
 
-    static getAuthorById = async (req: Request, res: Response) => {
+    /*static getAuthorById = async (req: Request, res: Response) => {
 
         try {
             const id: any = req.params.id;

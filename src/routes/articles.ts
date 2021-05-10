@@ -23,8 +23,8 @@ router.post('/create', [
     check('author').custom(isExistsAuthorId),
 ], validate, ArticleController.create);
 
-/*router.get('/all', AuthorController.all);
-router.get('/:id', AuthorController.getAuthorById);*/
+router.get('/all', ArticleController.all);
+//router.get('/:id', AuthorController.getAuthorById);
 
 
 export default router;
