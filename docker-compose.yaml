@@ -1,0 +1,34 @@
+version: "3"
+services:
+  mysqldb:
+    image: mysql
+    restart: always
+    env_file: ./.env
+    environment:
+      MYSQL_ROOT_PASSWORD: $DB_PASSWORD
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: $DB_DATABASE
+      MYSQL_USER: $DB_USERNAME
+    ports:
+      - "3307:3306"
+    volumes:
+      - db-config:/etc/mysql
+      - db-data:/var/lib/mysql
+      - ./db/backup/files/:/data_backup/data
+  app:
+    container_name: trufla-node-api
+    restart: always
+    build: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - '${PORT}:4000'
+    depends_on:
+      - mysqldb
+    stdin_open: true
+    tty: true
+    command: ["./wait-for-it.sh", "mysql:3306"]
+
+volumes:
+  db-config:
+  db-data:
