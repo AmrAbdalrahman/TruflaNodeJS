@@ -24,7 +24,7 @@ router.post('/create', [
 ], validate, ArticleController.create);
 
 router.get('/all', ArticleController.all);
-//router.get('/:id', AuthorController.getAuthorById);
+router.get('/:id', ArticleController.getArticleById);
 
 
 export default router;

@@ -32,21 +32,18 @@ class ArticleController {
         }
     };
 
-    /*static getAuthorById = async (req: Request, res: Response) => {
-
+    static getArticleById = async (req: Request, res: Response) => {
         try {
             const id: any = req.params.id;
-
-            const authorRepo = await getCustomRepository(AuthorRepository);
-            const author = await authorRepo.findAuthor(id);
-
-            resApi(author, 200, res);
+            console.log(id);
+            const articleRepo = await getRepository(Article);
+            const article = await articleRepo.findOneOrFail({where: {id}, relations: ['author']});
+            resApi(article, 200, res);
 
         } catch (e) {
-            console.log(e);
-            resApi(null, 404, res, 'No author found!');
+            resApi(null, 404, res, 'No article found!');
         }
-    };*/
+    };
 
 }
 
