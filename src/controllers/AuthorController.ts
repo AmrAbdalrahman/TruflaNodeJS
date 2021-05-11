@@ -45,7 +45,6 @@ class AuthorController {
             resApi(author, 200, res);
 
         } catch (e) {
-            console.log(e);
             resApi(null, 404, res, 'No author found!');
         }
     };

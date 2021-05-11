@@ -1,8 +1,17 @@
-import {createConnection, getConnection} from 'typeorm';
+import {Connection, createConnection, getConnection, getConnectionManager, getConnectionOptions} from 'typeorm';
 
 const connection = {
     async create() {
-        await createConnection();
+        let connection: Connection;
+
+        if (!getConnectionManager().has('default')) {
+            const connectionOptions = await getConnectionOptions();
+            connection = await createConnection(connectionOptions);
+        } else {
+            connection = await getConnection();
+        }
+        return connection;
+        //await createConnection();
     },
 
     async close() {
@@ -13,7 +22,6 @@ const connection = {
         const connection = getConnection();
         const entities = connection.entityMetadatas;
 
-        //set TESTING_MODE to true
         const entityDeletionPromises = entities.map((entity) => async () => {
             const repository = connection.getRepository(entity.name);
             await repository.query(`DELETE FROM ${entity.tableName}`);

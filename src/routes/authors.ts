@@ -8,7 +8,7 @@ const router = express();
 
 router.post('/create', [
     check('name').not().isEmpty().withMessage('name is required'),
-    check('job_title').not().isEmpty().withMessage('company_bio is required'),
+    check('job_title').not().isEmpty().withMessage('job_title is required'),
 ], validate, AuthorController.create);
 
 router.get('/all', AuthorController.all);
