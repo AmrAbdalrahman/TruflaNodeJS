@@ -10,7 +10,7 @@ import {
 import {Author} from "./Author";
 import {Article} from "./Article";
 
-@Entity({name: "articles"})
+@Entity({name: "comments"})
 export class Comment {
 
     @PrimaryGeneratedColumn()

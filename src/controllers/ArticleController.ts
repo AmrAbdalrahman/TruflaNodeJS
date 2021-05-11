@@ -56,7 +56,6 @@ class ArticleController {
                 .orWhere(`MATCH(body) AGAINST ('${text}' IN BOOLEAN MODE)`)
                 .leftJoinAndSelect("article.author", "author")
                 .getMany();
-            console.log(matchedArticles);
 
             if (matchedArticles.length)
                 resApi(matchedArticles, 200, res);
@@ -64,7 +63,6 @@ class ArticleController {
                 resApi(null, 404, res, 'no matched articles found');
 
         } catch (e) {
-            console.log(e);
             resApi(null, 400, res, 'error while searching');
         }
     };
