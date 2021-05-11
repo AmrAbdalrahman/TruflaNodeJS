@@ -43,7 +43,6 @@ class ArticleController {
     static getArticleById = async (req: Request, res: Response) => {
         try {
             const id: any = req.params.id;
-            console.log(id);
             const articleRepo = await getRepository(Article);
             const article = await articleRepo.findOneOrFail({where: {id}, relations: ['author']});
             resApi(article, 200, res);

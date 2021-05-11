@@ -57,8 +57,8 @@ it('creates a author with valid inputs', async () => {
         })
         .expect(201);
 
-    const authRepo = await getRepository(Author);
-    const author = await authRepo.find({order: {created_at: "DESC"}});
+    const authorRepo = await getRepository(Author);
+    const author = await authorRepo.find({order: {created_at: "DESC"}});
 
     expect(author.length).toBeGreaterThan(0);
     expect(author[0].name).toEqual(name);
