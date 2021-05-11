@@ -15,7 +15,6 @@ class ArticleController {
             resApi(savedArticle, 201, res, 'saved successfully');
 
         } catch (e) {
-            console.log(e);
             resApi(null, 400, res, 'error while saving');
         }
     };
@@ -23,8 +22,17 @@ class ArticleController {
     static all = async (req: Request, res: Response) => {
 
         try {
+            const sortBy: any = req.query.sortBy;
+
             const articleRepo = await getRepository(Article);
-            const allArticles = await articleRepo.find({order: {created_at: "DESC"}, relations: ['author']});
+            console.log(sortBy);
+
+            let allArticles;
+            if (sortBy == 'thumbs_up')
+                allArticles = await articleRepo.find({order: {thumbs: "DESC"}, relations: ['author']});
+            else
+                allArticles = await articleRepo.find({order: {created_at: "DESC"}, relations: ['author']});
+
 
             resApi(allArticles, 200, res);
 
