@@ -8,13 +8,14 @@ class ArticleController {
     static create = async (req: Request, res: Response) => {
 
         try {
-            const {title, body, author} = req.body;
+            const {title, body, author_id} = req.body;
             const articleRepo = await getRepository(Article);
-            const savedArticle = await articleRepo.save({title, body, author_id: author});
+            const savedArticle = await articleRepo.save({title, body, author_id});
 
             resApi(savedArticle, 201, res, 'saved successfully');
 
         } catch (e) {
+            console.log(e);
             resApi(null, 400, res, 'error while saving');
         }
     };
@@ -64,6 +65,26 @@ class ArticleController {
 
         } catch (e) {
             resApi(null, 400, res, 'error while searching');
+        }
+    };
+
+    static thumbs = async (req: Request, res: Response) => {
+
+        try {
+            const {type, article_id} = req.body;
+            const articleRepo = await getRepository(Article);
+
+            await articleRepo
+                .createQueryBuilder('article')
+                .update(Article)
+                .where({id: article_id})
+                .set({thumbs: () => type == 'up' ? 'thumbs + 1' : 'thumbs - 1'})
+                .execute();
+
+            resApi('changed successfully', 200, res);
+
+        } catch (e) {
+            resApi(null, 400, res, "thumbs can't be less than zero");
         }
     };
 

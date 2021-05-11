@@ -42,6 +42,11 @@ router.post('/search', [
     check('text').not().isEmpty().withMessage('text is required'),
 ], validate, ArticleController.search);
 
+router.post('/thumbs', [
+    check('type').isIn(["up", "down"]).withMessage('type must be up or down'),
+    check('article_id').custom(isExistsArticleId),
+], validate, ArticleController.thumbs);
+
 //add comment
 router.post('/addComment', [
     check('comment').not().isEmpty().withMessage('comment is required'),

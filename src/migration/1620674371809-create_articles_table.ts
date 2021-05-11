@@ -33,6 +33,8 @@ export class createArticlesTable1620674371809 implements MigrationInterface {
                 {
                     name: "thumbs",
                     type: "bigInt",
+                    default: 0,
+                    unsigned: true,
                     isNullable: true
                 },
                 {
