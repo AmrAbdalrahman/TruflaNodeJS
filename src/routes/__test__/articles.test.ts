@@ -99,8 +99,7 @@ it('creates an article with valid inputs', async () => {
     expect(article.title).toEqual(title);
     expect(article.body).toEqual(body);
     expect(article.author?.id).toEqual(`${author_id}`);
-})
-;
+});
 
 
 it('returns a 404 if the article is not found', async () => {

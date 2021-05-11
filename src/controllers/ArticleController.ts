@@ -28,9 +28,9 @@ class ArticleController {
 
             let allArticles;
             if (sortBy == 'thumbs_up')
-                allArticles = await articleRepo.find({order: {thumbs: "DESC"}, relations: ['author']});
+                allArticles = await articleRepo.find({order: {thumbs: "DESC"}, relations: ['author', 'comments']});
             else
-                allArticles = await articleRepo.find({order: {created_at: "DESC"}, relations: ['author']});
+                allArticles = await articleRepo.find({order: {created_at: "DESC"}, relations: ['author', 'comments']});
 
 
             resApi(allArticles, 200, res);
@@ -44,7 +44,7 @@ class ArticleController {
         try {
             const id: any = req.params.id;
             const articleRepo = await getRepository(Article);
-            const article = await articleRepo.findOneOrFail({where: {id}, relations: ['author']});
+            const article = await articleRepo.findOneOrFail({where: {id}, relations: ['author', 'comments']});
             resApi(article, 200, res);
 
         } catch (e) {
