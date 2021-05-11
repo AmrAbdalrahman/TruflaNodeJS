@@ -26,5 +26,9 @@ router.post('/create', [
 router.get('/all', ArticleController.all);
 router.get('/:id', ArticleController.getArticleById);
 
+router.post('/search', [
+    check('text').not().isEmpty().withMessage('text is required'),
+], validate, ArticleController.search);
+
 
 export default router;

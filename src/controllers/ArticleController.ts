@@ -45,6 +45,30 @@ class ArticleController {
         }
     };
 
+    static search = async (req: Request, res: Response) => {
+
+        try {
+            const {text} = req.body;
+            const articleRepo = await getRepository(Article);
+            const matchedArticles = await articleRepo.createQueryBuilder("article")
+                .select()
+                .where(`MATCH(title) AGAINST ('${text}' IN BOOLEAN MODE)`)
+                .orWhere(`MATCH(body) AGAINST ('${text}' IN BOOLEAN MODE)`)
+                .leftJoinAndSelect("article.author", "author")
+                .getMany();
+            console.log(matchedArticles);
+
+            if (matchedArticles.length)
+                resApi(matchedArticles, 200, res);
+            else
+                resApi(null, 404, res, 'no matched articles found');
+
+        } catch (e) {
+            console.log(e);
+            resApi(null, 400, res, 'error while searching');
+        }
+    };
+
 }
 
 export default ArticleController;

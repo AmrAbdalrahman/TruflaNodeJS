@@ -1,10 +1,10 @@
 import {MigrationInterface, QueryRunner, Table, TableForeignKey, TableIndex} from "typeorm";
 
-export class createArticlesTable1620674371809 implements MigrationInterface {
+export class createCommentsTable1620722701966 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
-            name: "articles",
+            name: "comments",
             columns: [
                 {
                     name: "id",
@@ -15,25 +15,21 @@ export class createArticlesTable1620674371809 implements MigrationInterface {
                     generationStrategy: "increment"
                 },
                 {
-                    name: "title",
-                    type: "varchar",
-                    isNullable: false
-                },
-                {
-                    name: "body",
+                    name: "comment",
                     type: "text",
                     isNullable: false
                 },
                 {
-                    name: "author_id",
+                    name: "user_id",
                     type: "bigInt",
                     unsigned: true,
                     isNullable: false
                 },
                 {
-                    name: "thumbs",
+                    name: "article_id",
                     type: "bigInt",
-                    isNullable: true
+                    unsigned: true,
+                    isNullable: false
                 },
                 {
                     name: 'created_at',
@@ -48,22 +44,17 @@ export class createArticlesTable1620674371809 implements MigrationInterface {
             ]
         }), true);
 
-        await queryRunner.createIndex("articles", new TableIndex({
-            name: "articles_title_index",
-            columnNames: ["title"],
-            isFulltext: true
-        }));
-
-        await queryRunner.createIndex("articles", new TableIndex({
-            name: "articles_body_index",
-            columnNames: ["body"],
-            isFulltext: true
-        }));
-
-        await queryRunner.createForeignKeys('articles', [
+        await queryRunner.createForeignKeys('comments', [
                 new TableForeignKey({
-                    columnNames: ['author_id'],
+                    columnNames: ['user_id'],
                     referencedTableName: 'authors',
+                    referencedColumnNames: ['id'],
+                    onUpdate: "CASCADE",
+                    onDelete: "CASCADE"
+                }),
+                new TableForeignKey({
+                    columnNames: ['article_id'],
+                    referencedTableName: 'articles',
                     referencedColumnNames: ['id'],
                     onUpdate: "CASCADE",
                     onDelete: "CASCADE"
@@ -73,7 +64,7 @@ export class createArticlesTable1620674371809 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("articles");
+        await queryRunner.dropTable("comments");
     }
 
 }
