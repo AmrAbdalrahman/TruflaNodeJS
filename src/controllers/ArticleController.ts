@@ -25,7 +25,6 @@ class ArticleController {
             const sortBy: any = req.query.sortBy;
 
             const articleRepo = await getRepository(Article);
-            console.log(sortBy);
 
             let allArticles;
             if (sortBy == 'thumbs_up')
