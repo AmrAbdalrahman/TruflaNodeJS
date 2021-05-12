@@ -24,8 +24,8 @@ using [Express](https://github.com/expressjs/express) [TypeScript](https://githu
 
 # API
 
-- for API [documentation](https://documenter.getpostman.com/view/5140236/TzRUA6U9) that contains examples for success
-  and failures endpoints
+- for API [documentation](https://documenter.getpostman.com/view/5140236/TzRUA6U9) that contains examples for success,
+   failures and the data model endpoints
 
 # Testing
 
